@@ -1,12 +1,12 @@
 import os
 from pathlib import Path
-from setuptools import setup, find_packages
+
 import torch
+from setuptools import find_packages, setup
 from torch.utils.cpp_extension import BuildExtension, CUDAExtension
 
-
 # Supported NVIDIA GPU architectures.
-NVIDIA_SUPPORTED_ARCHS = {"7.0", "7.5", "8.0", "8.6", "8.9", "9.0"}
+NVIDIA_SUPPORTED_ARCHS = {"8.0", "8.6", "8.9", "9.0"}
 
 # TORCH_CUDA_ARCH_LIST can have one or more architectures,
 # e.g. "9.0" or "7.0 7.2 7.5 8.0 8.6 8.7 9.0+PTX". Here,
@@ -55,8 +55,8 @@ ext_modules = [
 
 setup(
     name="grouped_gemm",
-    version="1.1.4",
-    author="Trevor Gale, Jiang Shao, Shiqing Fan",
+    version="1.2.0",
+    author="Trevor Gale, Jiang Shao, Shiqing Fan, Yan Bai",
     author_email="tgale@stanford.edu, jiangs@nvidia.com, shiqingf@nvidia.com",
     description="GEMM Grouped",
     url="https://github.com/fanshiqing/grouped_gemm",

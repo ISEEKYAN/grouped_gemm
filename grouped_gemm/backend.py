@@ -1,11 +1,10 @@
 # NOTE: Torch needs to be imported before the custom
 # extensions. Otherwise libc10.so cannot be found.
-import torch
-
 # TODO(tgale): Wrap this in a try-block with better
 # error message and instructions for building the
 # c++ operations.
 import grouped_gemm_backend as backend
+import torch
 
 
 def _allocate_output(a, b, batch_sizes, trans_a, trans_b):
@@ -19,6 +18,9 @@ def _allocate_output(a, b, batch_sizes, trans_a, trans_b):
         if trans_a else
         (a.shape[0], (b.shape[1] if trans_b else b.shape[2]))
     )
+    existing_zero = (batch_sizes==0).sum()>0
+    if existing_zero:
+        return torch.zeros(*shape, device=a.device, dtype=a.dtype)
     return torch.empty(*shape, device=a.device, dtype=a.dtype)
 
 def gmm(a, b, batch_sizes, trans_a=False, trans_b=False, c=None):
